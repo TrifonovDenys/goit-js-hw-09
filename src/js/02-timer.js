@@ -31,10 +31,23 @@ const options = {
 const inputEl = document.querySelector('#datetime-picker')
 const fp = flatpickr(inputEl, options)
 
-buttunEl.addEventListener('click', onButtonClick)
+buttunEl.addEventListener('click', timerStart)
 
 function onButtonClick() {
   
+}
+
+function timerStart() {
+  const d = document.querySelector('[data-days]')
+  const h = document.querySelector('[data-hours]')
+  const m = document.querySelector('[data-minutes]')
+  const s = document.querySelector('[data-seconds]')
+console.log(t);
+  d.textContent = convertMs(t*1000).days
+  h.textContent = convertMs(t*1000).hours
+  m.textContent = convertMs(t*1000).minutes
+  s.textContent = convertMs(t*1000).seconds
+
 }
 
 function convertMs(ms) {
