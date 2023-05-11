@@ -1,10 +1,12 @@
-import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css";
-import Notiflix from 'notiflix'
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
+import Notiflix from 'notiflix';
 
-const buttunEl = document.querySelector('[data-start]')
-buttunEl.disabled = true
-let t = 0
+let intervalId = null;
+
+const buttunEl = document.querySelector('[data-start]');
+buttunEl.disabled = true;
+let t = 0;
 
 const options = {
   enableTime: true,
@@ -13,41 +15,41 @@ const options = {
   minuteIncrement: 1,
   enableSeconds: true,
   onClose(selectedDates) {
-    // console.log(selectedDates[0]);
     const date = new Date();
-    let dateTime =  Math.round(date.getTime() /1000)
+    let dateTime = Math.round(date.getTime() / 1000);
     console.log(dateTime);
-    let a = Math.round(fp.formatDate(selectedDates[0], "U"))
+    let a = Math.round(fp.formatDate(selectedDates[0], 'U'));
     console.log(a);
     if (dateTime < a) {
-      buttunEl.disabled = false
-      t = a - dateTime
-      console.log(t);
-      console.log(convertMs(t*1000));
+      buttunEl.disabled = false;
+      const intervalId = setInterval(() => {
+        const currentTime = Date.now();
+          // console.dir(currentTime);
+        t = a - (currentTime / 1000);
+        console.log(convertMs(t * 1000));
+      }, 1000);
     }
+    
   },
 };
 
-const inputEl = document.querySelector('#datetime-picker')
-const fp = flatpickr(inputEl, options)
+const inputEl = document.querySelector('#datetime-picker');
+const fp = flatpickr(inputEl, options);
 
-buttunEl.addEventListener('click', timerStart)
-
-function onButtonClick() {
-  
-}
+buttunEl.addEventListener('click', timerStart);
 
 function timerStart() {
-  const d = document.querySelector('[data-days]')
-  const h = document.querySelector('[data-hours]')
-  const m = document.querySelector('[data-minutes]')
-  const s = document.querySelector('[data-seconds]')
-console.log(t);
-  d.textContent = convertMs(t*1000).days
-  h.textContent = convertMs(t*1000).hours
-  m.textContent = convertMs(t*1000).minutes
-  s.textContent = convertMs(t*1000).seconds
-
+  const d = document.querySelector('[data-days]');
+  const h = document.querySelector('[data-hours]');
+  const m = document.querySelector('[data-minutes]');
+  const s = document.querySelector('[data-seconds]');
+  // console.log(t);
+  setInterval(() => {
+    d.textContent = pad(convertMs(t * 1000).days);
+  h.textContent = pad(convertMs(t * 1000).hours);
+  m.textContent = pad(convertMs(t * 1000).minutes);
+  s.textContent = pad(convertMs(t * 1000).seconds);
+ },1000)
 }
 
 function convertMs(ms) {
@@ -68,3 +70,7 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
+
+function pad(value) {
+  return String(value).padStart(2, '0')
+}
