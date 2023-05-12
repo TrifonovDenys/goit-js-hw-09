@@ -48,6 +48,20 @@ img {
   color: white;
   background-color: dimgrey;
 }
+.timer-wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.timer-wrapper > div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+[data-start]{
+  margin: 10px;
+}
 .timer{
   display: flex;
   justify-content: center;

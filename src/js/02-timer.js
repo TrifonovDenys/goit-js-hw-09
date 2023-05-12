@@ -2,7 +2,7 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import Notiflix from 'notiflix';
 
-let selectedTime = 0
+let selectedTime = 0;
 const refs = {
   startBtn: document.querySelector('[data-start]'),
   stopBtn: document.querySelector('[data-stop]'),
@@ -12,7 +12,6 @@ const refs = {
   s: document.querySelector('[data-seconds]'),
 };
 
-
 const option = {
   enableTime: true,
   time_24hr: true,
@@ -20,21 +19,21 @@ const option = {
   minuteIncrement: 1,
   enableSeconds: true,
   onClose(selectedDates) {
-    selectedTime = +fp.formatDate(selectedDates[0], 'U') * 1000
-    const checkTime = Date.now()
+    selectedTime = +fp.formatDate(selectedDates[0], 'U') * 1000;
+    const checkTime = Date.now();
     if (selectedTime < checkTime) {
-      refs.startBtn.disabled = true
+      refs.startBtn.disabled = true;
     }
     if (selectedTime > checkTime) {
-      refs.startBtn.disabled = false
+      refs.startBtn.disabled = false;
     }
     if (selectedTime < checkTime) {
       Notiflix.Notify.failure('Обрана дата у минулому');
     }
-  }
-}
+  },
+};
 
-const fp = flatpickr(document.querySelector('#datetime-picker'), option)
+const fp = flatpickr(document.querySelector('#datetime-picker'), option);
 
 class Timer {
   constructor({ onTick }) {
@@ -46,18 +45,16 @@ class Timer {
   start() {
     if (!selectedTime) {
       Notiflix.Notify.failure('Оберіть дату');
-      return
+      return;
     }
-    
+
     if (this.isActive) {
       return;
     }
     this.isActive = true;
-    // const startTime = a
     this.intervalId = setInterval(() => {
       const currentTime = Date.now();
       const deltaTime = selectedTime - currentTime;
-      // console.log(selectedTime);
       const time = this.convertMs(deltaTime);
       this.onTick(time);
     }, 1000);
@@ -68,6 +65,8 @@ class Timer {
     this.isActive = false;
     const time = this.convertMs(0);
     this.onTick(time);
+    refs.startBtn.disabled = true;
+    Notiflix.Notify.info('Оберіть нову дату');
   }
 
   convertMs(ms) {
@@ -76,15 +75,11 @@ class Timer {
     const hour = minute * 60;
     const day = hour * 24;
 
-    // Remaining days
     const days = this.addLeadingZero(Math.floor(ms / day));
-    // Remaining hours
     const hours = this.addLeadingZero(Math.floor((ms % day) / hour));
-    // Remaining minutes
     const minutes = this.addLeadingZero(
       Math.floor(((ms % day) % hour) / minute)
     );
-    // Remaining seconds
     const seconds = this.addLeadingZero(
       Math.floor((((ms % day) % hour) % minute) / second)
     );
