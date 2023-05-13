@@ -40,6 +40,7 @@ class Timer {
     this.intervalId = null;
     this.isActive = false;
     this.onTick = onTick;
+    this.delay = 0;
   }
 
   start() {
@@ -57,7 +58,8 @@ class Timer {
       const deltaTime = selectedTime - currentTime;
       const time = this.convertMs(deltaTime);
       this.onTick(time);
-    }, 1000);
+      this.delay = 1000
+    }, this.delay);
   }
 
   stop() {
