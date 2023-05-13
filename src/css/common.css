@@ -72,4 +72,12 @@ img {
   justify-content: center;
   align-items: center;
   padding: 10px;
+  width: 70px;
+  position: relative;
 }
+.field:not(:last-child):after {
+  content: ':';
+  position: absolute;
+  top: 9;
+  right: 0
+} 
