@@ -34,7 +34,7 @@ function onButtonClick(e) {
   if (refs.inputDelayStep.value === '') Notiflix.Notify.info(`${massage[1]}`);
   if (refs.inputAmount.value === '') Notiflix.Notify.info(`${massage[2]}`);
 
-  for (i = 1; i <= a; i++) {
+  for (let i = 1; i <= a; i++) {
     createPromise(i, promiseDelay)
       .then(({ i, promiseDelay }) => {
         console.log(`✅ Fulfilled promise ${i} in ${promiseDelay}ms`);
