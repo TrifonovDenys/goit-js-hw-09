@@ -56,6 +56,11 @@ class Timer {
     this.intervalId = setInterval(() => {
       const currentTime = Date.now();
       const deltaTime = selectedTime - currentTime;
+      if (deltaTime < 0) {
+        clearInterval(this.intervalId);
+        return Notiflix.Notify.info('Таймер завершено');
+      }
+      console.log(deltaTime);
       const time = this.convertMs(deltaTime);
       this.onTick(time);
       this.delay = 1000
